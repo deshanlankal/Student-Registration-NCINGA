@@ -117,14 +117,20 @@ public class StudentController {
     }
 
     //Search feature
+//    @GetMapping("/search/{text}")
+//    public List<Student> search(
+//            @PathVariable String text,
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "5") int size
+//    ) {
+//        return studentSearchRepository.findByText(text, page, size);
+//    }
+
     @GetMapping("/search/{text}")
-    public List<Student> search(
-            @PathVariable String text,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
-    ) {
-        return studentSearchRepository.findByText(text, page, size);
+    public List<Student> search(@PathVariable String text) {
+        return studentSearchRepository.findByText(text);
     }
+
 
 
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface StudentSearchRepository {
 
-    List<Student> findByText(String text,int page, int size);
+    List<Student> findByText(String text);
 }

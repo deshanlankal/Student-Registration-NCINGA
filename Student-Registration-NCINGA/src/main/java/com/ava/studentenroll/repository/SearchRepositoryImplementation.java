@@ -23,24 +23,17 @@ public class SearchRepositoryImplementation implements StudentSearchRepository {
     private String databaseName;
 
     @Override
-    public List<Student> findByText(String text, int page, int size) {
+    public List<Student> findByText(String text) {
         MongoDatabase database = mongoClient.getDatabase(databaseName);
         MongoCollection<Document> collection = database.getCollection("students");
 
         List<Document> pipeline = new ArrayList<>();
 
-        // MongoDB Atlas Search stage
+        // MongoDB Atlas full-text search on selected fields
         pipeline.add(new Document("$search",
                 new Document("text",
                         new Document("query", text)
-                                .append("path", Arrays.asList("firstName", "lastName", "email", "course", "phoneNumber", "address")))));
-
-        // Optional: Sort by something (like DOB or date added)
-        pipeline.add(new Document("$sort", new Document("dob", 1)));
-
-        // Pagination
-        pipeline.add(new Document("$skip", page * size));
-        pipeline.add(new Document("$limit", size));
+                                .append("path", Arrays.asList("firstName", "lastName", "email", "address")))));
 
         List<Student> students = new ArrayList<>();
         for (Document doc : collection.aggregate(pipeline)) {
@@ -59,9 +52,14 @@ public class SearchRepositoryImplementation implements StudentSearchRepository {
             // Optional image mapping
             if (doc.containsKey("imageData")) {
                 Document img = (Document) doc.get("imageData");
-                student.setImageData(img.getString("data").getBytes());
-                student.setImageType(img.getString("type"));
-                student.setImageName(img.getString("name"));
+                if (img != null) {
+                    student.setImageName(img.getString("name"));
+                    student.setImageType(img.getString("type"));
+                    String base64 = img.getString("data");
+                    if (base64 != null) {
+                        student.setImageData(base64.getBytes());
+                    }
+                }
             }
 
             students.add(student);
