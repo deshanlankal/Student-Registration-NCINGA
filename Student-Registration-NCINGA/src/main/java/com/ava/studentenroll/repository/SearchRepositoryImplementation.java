@@ -27,18 +27,22 @@ public class SearchRepositoryImplementation implements StudentSearchRepository {
         MongoDatabase database = mongoClient.getDatabase(databaseName);
         MongoCollection<Document> collection = database.getCollection("students");
 
-        List<Document> pipeline = new ArrayList<>();
+        // Use regular expression for text matching on multiple fields
+        Document query = new Document();
+        query.put("firstName", new Document("$regex", text).append("$options", "i"));
+        query.put("lastName", new Document("$regex", text).append("$options", "i"));
+        query.put("email", new Document("$regex", text).append("$options", "i"));
+        query.put("address", new Document("$regex", text).append("$options", "i"));
 
-        // MongoDB Atlas full-text search on selected fields
-        pipeline.add(new Document("$search",
-                new Document("text",
-                        new Document("query", text)
-                                .append("path", Arrays.asList("firstName", "lastName", "email", "address")))));
+        // Log the query to see what's being sent to MongoDB
+        System.out.println("Search query: " + query.toJson()); // Log the query to check
+
+        // Find documents matching the query
+        List<Document> documents = collection.find(query).into(new ArrayList<>());
 
         List<Student> students = new ArrayList<>();
-        for (Document doc : collection.aggregate(pipeline)) {
+        for (Document doc : documents) {
             Student student = new Student();
-
             student.setId(doc.getObjectId("_id").toString());
             student.setFirstName(doc.getString("firstName"));
             student.setLastName(doc.getString("lastName"));
@@ -67,4 +71,7 @@ public class SearchRepositoryImplementation implements StudentSearchRepository {
 
         return students;
     }
+
 }
+
+

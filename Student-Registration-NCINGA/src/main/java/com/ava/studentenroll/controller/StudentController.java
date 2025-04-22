@@ -130,7 +130,4 @@ public class StudentController {
     public List<Student> search(@PathVariable String text) {
         return studentSearchRepository.findByText(text);
     }
-
-
-
 }
