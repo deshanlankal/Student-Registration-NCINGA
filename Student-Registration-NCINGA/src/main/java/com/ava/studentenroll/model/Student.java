@@ -33,7 +33,7 @@ public class Student {
     private String gender;
 
 
-    //the image handdling this
+    //the image handling this
     //all the time that took to build this == 1 HOUR
 
     private String imageName;
