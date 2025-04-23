@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:8080/api/students'; // adjust if needed
+const API_BASE = 'http://localhost:8080/api/students';
 
 // Get students with pagination
 export const getAllStudents = (page = 1, limit = 9) =>

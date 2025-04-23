@@ -4,7 +4,7 @@ import StudentCard from '../components/StudentCard';
 import { getAllStudents, searchStudents } from '../api';
 import UpdateStudentForm from '../components/UpdateStudentModal';
 import { toast } from 'react-toastify';
-import './Home.css'; // Make sure this CSS file exists
+import './Home.css'; 
 
 const Home = () => {
   const [students, setStudents] = useState([]);
