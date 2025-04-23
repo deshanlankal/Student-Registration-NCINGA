@@ -23,10 +23,10 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    public StudentController(StudentService studentService, StudentSearchRepository studentSearchRepository, StudentSearchRepository studentSearchRepository1) {
+    public StudentController(StudentService studentService, StudentSearchRepository studentSearchRepository) {
 
         this.studentService = studentService;
-        this.studentSearchRepository = studentSearchRepository1;
+        this.studentSearchRepository = studentSearchRepository;
     }
 
 
