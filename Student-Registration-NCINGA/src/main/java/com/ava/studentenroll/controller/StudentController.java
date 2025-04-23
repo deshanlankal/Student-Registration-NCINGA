@@ -5,6 +5,7 @@ import com.ava.studentenroll.model.Student;
 import com.ava.studentenroll.repository.StudentSearchRepository;
 import com.ava.studentenroll.service.StudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/students")
 @CrossOrigin(origins = "http://localhost:3000")
+//@RequiredArgsConstructor
 public class StudentController {
 
 
